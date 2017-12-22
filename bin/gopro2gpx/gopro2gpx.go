@@ -97,12 +97,10 @@ func main() {
 						Longitude: telems[i].Longitude,
 						Elevation: *gpx.NewNullableFloat64(telems[i].Altitude),
 					},
-					Timestamp: time.Unix(telems[i].TS/1000/1000, telems[i].TS%(1000*1000)),
+					Timestamp: time.Unix(telems[i].TS/1000/1000, telems[i].TS%(1000*1000)).UTC(),
 				},
 			)
 
-			//fmt.Printf("raw time: %s, %s\n", telems[i].TS/1000/1000, telems[i].TS%(1000*1000))
-			//fmt.Printf("Timestamp: %s\n", time.Unix(telems[i].TS/1000/1000, telems[i].TS%(1000*1000)))
 			lastTime = time.Unix(telems[i].TS/1000/1000, telems[i].TS%(1000*1000))
 		}
 
@@ -110,7 +108,8 @@ func main() {
 		t = &telemetry.TELEM{}
 	}
 
-	fmt.Printf("lastTime end: %s\n", lastTime)
+	fmt.Printf("lastTime: %s\n", lastTime)
+	fmt.Printf("lastTime(UTC): %s\n", lastTime.UTC())
 
 	if err := os.Chtimes(*videoName, time.Now(), lastTime); err != nil {
 		fmt.Printf("os.Chtimes() failure: %s.\n", err)
