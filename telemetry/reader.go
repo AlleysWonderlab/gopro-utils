@@ -50,7 +50,7 @@ func Read(f io.Reader) (*TELEM, error) {
 		"MTRX",
 		"ORIN",
 		"ORIO",
-		"HD4",
+		"HD4.",
 	}
 
 	label := make([]byte, 4, 4) // 4 byte ascii label of data
